@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - messages</title>
+</head>
+<body>
+    <h1>User messages</h1>
+    
+    <p>
+        <a href="/">Home</a> | 
+        <a href="/projects">Projects</a> | 
+        <a href="/contact">Contact Form</a>
+    </p>
+
+    <hr>
+
+    <h3>List of All messages:</h3>
+    
+    {% if data %}
+        <ul>
+            {% for m in data %}
+                <li>{{ m }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No messages found in the file.</p>
+    {% endif %}
+
+</body>
+</html>
