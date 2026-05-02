@@ -50,6 +50,22 @@ def data_view():
 
         return render_template("data.html",data=data)
 
+@app.route("/collaborate")
+def collaborate():
+    messages = []
+    try:
+        with open("data.txt","r") as file:
+            for line in file.readlines():
+                if ":" in line:
+                    name, message = line.split(":", 1)
+                    messages.append({
+                        "name": name.strip(),
+                        "message": message.strip()
+                    })
+    except FileNotFoundError:
+        messages = []
+    
+    return render_template("collaborate.html", messages=messages)
 
 
 if __name__ == "__main__":

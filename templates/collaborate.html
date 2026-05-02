@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborate - Messages</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: #764ba2;
+        }
+        
+        .messages-container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .message-card {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            background: #f8f9fa;
+            border-radius: 4px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .message-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        .message-card:last-child {
+            margin-bottom: 0;
+        }
+        
+        .message-name {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .message-text {
+            color: #333;
+            line-height: 1.6;
+            font-size: 1em;
+        }
+        
+        .no-messages {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px;
+            font-size: 1.1em;
+        }
+        
+        .message-count {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💬 Collaborate</h1>
+            <p>Messages from visitors and collaborators</p>
+        </header>
+        
+        <nav>
+            <a href="/">🏠 Home</a> | 
+            <a href="/about">👤 About</a> | 
+            <a href="/projects">🚀 Projects</a> | 
+            <a href="/contact">✉️ Contact</a>
+        </nav>
+        
+        <div class="messages-container">
+            {% if messages %}
+                <div class="message-count">
+                    📊 Total Messages: <strong>{{ messages|length }}</strong>
+                </div>
+                
+                {% for msg in messages %}
+                    <div class="message-card">
+                        <div class="message-name">👤 {{ msg.name }}</div>
+                        <div class="message-text">{{ msg.message }}</div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-messages">
+                    <p>📭 No messages yet. Be the first to collaborate! <a href="/contact">Send a message</a></p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
