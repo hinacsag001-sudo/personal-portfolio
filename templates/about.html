@@ -2,15 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- Viewport meta tag for proper mobile rendering -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Hina Ali |</title>
     <style>
-        /* 1. Global Styles */
+        /* =============================================
+           1. GLOBAL STYLES
+           Reset defaults and apply royal theme base
+        ============================================= */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Georgia', serif;
             background-color: #002366; /* Royal Blue */
-            color: #D4AF37; /* Gold */
+            color: #D4AF37;            /* Gold */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -18,39 +23,55 @@
             line-height: 1.6;
         }
 
-        /* 2. Navigation */
+        /* =============================================
+           2. NAVIGATION
+           Flex-wrap lets links stack on small screens
+        ============================================= */
         nav {
             width: 100%;
-            padding: 25px 0;
+            padding: 20px 15px;
             background: rgba(0, 0, 0, 0.3);
-            text-align: center;
             border-bottom: 2px solid #D4AF37;
+            display: flex;
+            flex-wrap: wrap;           /* Links wrap instead of overflow */
+            justify-content: center;
+            gap: 10px;
         }
 
         nav a {
             color: #D4AF37;
             text-decoration: none;
-            margin: 0 20px;
+            padding: 8px 16px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: 0.3s;
+            white-space: nowrap;
         }
 
         nav a:hover { color: #FFFFFF; }
 
-        /* 3. About Container */
+        /* =============================================
+           3. ABOUT CONTAINER
+           Card-style box that holds all about content
+        ============================================= */
         .about-container {
             max-width: 900px;
-            margin: 60px 20px;
-            padding: 40px;
+            width: 90%;               /* Fluid width on small screens */
+            margin: 40px auto;
+            padding: 30px 25px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
             border: 1px solid rgba(212, 175, 55, 0.3);
         }
 
+        /* =============================================
+           4. TYPOGRAPHY
+           Responsive heading sizes via clamp()
+        ============================================= */
         h1 {
-            font-size: 3rem;
+            /* Scales between 2rem on phones and 3rem on desktop */
+            font-size: clamp(2rem, 5vw, 3rem);
             text-align: center;
             margin-bottom: 30px;
             border-bottom: 2px solid #D4AF37;
@@ -63,11 +84,13 @@
             color: #FFFFFF;
             margin-top: 30px;
             margin-bottom: 15px;
-            font-size: 1.8rem;
+            /* Scales between 1.4rem on phones and 1.8rem on desktop */
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
             display: flex;
             align-items: center;
         }
 
+        /* Gold diamond bullet before every section heading */
         h2::before {
             content: "✦ ";
             color: #D4AF37;
@@ -76,18 +99,22 @@
 
         p {
             color: #f0e68c;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             margin-bottom: 20px;
         }
 
-        /* 4. Skills Grid */
+        /* =============================================
+           5. SKILLS GRID
+           Auto-fill columns; min 140px wide each
+        ============================================= */
         .skills-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 15px;
             margin-top: 10px;
         }
 
+        /* Individual skill badge */
         .skill-item {
             background: rgba(212, 175, 55, 0.1);
             padding: 10px;
@@ -95,20 +122,36 @@
             border-radius: 5px;
             text-align: center;
             font-weight: bold;
+            font-size: 0.9rem;
         }
 
-        /* 5. Education List */
+        /* =============================================
+           6. EDUCATION LIST
+           Left-bordered card for each qualification
+        ============================================= */
         .edu-item {
             margin-bottom: 20px;
             padding-left: 20px;
-            border-left: 3px solid #D4AF37;
+            border-left: 3px solid #D4AF37; /* Gold left accent line */
         }
 
+        /* Year / degree label in white for contrast */
         .edu-year { color: #FFFFFF; font-weight: bold; }
+
+        /* =============================================
+           7. MOBILE OVERRIDES
+           Tighten spacing on very small screens
+        ============================================= */
+        @media (max-width: 480px) {
+            .about-container {
+                padding: 20px 15px;
+            }
+        }
     </style>
 </head>
 <body>
 
+    <!-- ── Navigation Bar ────────────────────────────── -->
     <nav>
         <a href="/">Home</a>
         <a href="/about">About Me</a>
@@ -116,6 +159,7 @@
         <a href="/contact">Contact</a>
     </nav>
 
+    <!-- ── About Content Card ────────────────────────── -->
     <div class="about-container">
         <h1>ABOUT ME</h1>
 
@@ -134,7 +178,7 @@
             <p><strong>University of Agriculture Faisalabad (UAF), Okara Campus</strong><br>Okara City</p>
         </div>
 
-        <!-- Skills Section -->
+        <!-- Skills Section: auto-fit grid of skill badges -->
         <h2>Professional Skills</h2>
         <div class="skills-list">
             <div class="skill-item">Python / Flask</div>

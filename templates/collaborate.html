@@ -2,108 +2,153 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- Viewport meta tag for correct scaling on mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collaborate - Messages</title>
     <style>
+        /* =============================================
+           1. GLOBAL RESET
+        ============================================= */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
+        /* =============================================
+           2. BODY
+           Purple gradient background, fluid padding
+        ============================================= */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 20px 15px; /* Horizontal padding prevents edge overflow on phones */
         }
-        
+
+        /* =============================================
+           3. PAGE WRAPPER
+           Centred max-width container
+        ============================================= */
         .container {
             max-width: 900px;
             margin: 0 auto;
         }
-        
+
+        /* =============================================
+           4. PAGE HEADER
+           Title and subtitle at the top of the page
+        ============================================= */
         header {
             text-align: center;
             color: white;
             margin-bottom: 40px;
         }
-        
+
         header h1 {
-            font-size: 2.5em;
+            /* Fluid font: 1.8rem on phones → 2.5rem on desktop */
+            font-size: clamp(1.8rem, 5vw, 2.5em);
             margin-bottom: 10px;
         }
-        
+
         header p {
-            font-size: 1.1em;
+            font-size: 1.05em;
             opacity: 0.9;
         }
-        
+
+        /* =============================================
+           5. NAVIGATION
+           White pill-shaped nav bar; links wrap on mobile
+        ============================================= */
         nav {
             background: white;
-            padding: 15px;
+            padding: 12px 15px;
             border-radius: 8px;
             margin-bottom: 30px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;            /* Flexbox for wrapping */
+            flex-wrap: wrap;          /* Links stack on narrow screens */
+            justify-content: center;
+            gap: 8px;
         }
-        
+
         nav a {
             color: #667eea;
             text-decoration: none;
-            margin: 0 15px;
+            padding: 6px 12px;
             font-weight: 500;
             transition: color 0.3s ease;
+            white-space: nowrap;
         }
-        
+
         nav a:hover {
             color: #764ba2;
         }
-        
+
+        /* =============================================
+           6. MESSAGES CONTAINER
+           White card that holds all message cards
+        ============================================= */
         .messages-container {
             background: white;
             border-radius: 8px;
-            padding: 30px;
+            padding: 25px 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
-        
+
+        /* =============================================
+           7. INDIVIDUAL MESSAGE CARD
+        ============================================= */
         .message-card {
             padding: 20px;
             margin-bottom: 20px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #667eea; /* Purple left accent line */
             background: #f8f9fa;
             border-radius: 4px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        
+
+        /* Subtle lift effect on hover */
         .message-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
         }
-        
+
+        /* Remove bottom margin from the last card */
         .message-card:last-child {
             margin-bottom: 0;
         }
-        
+
+        /* Sender name displayed in purple */
         .message-name {
             font-weight: bold;
             color: #667eea;
-            font-size: 1.1em;
+            font-size: 1.05em;
             margin-bottom: 8px;
         }
-        
+
+        /* Body text of the message */
         .message-text {
             color: #333;
             line-height: 1.6;
             font-size: 1em;
         }
-        
+
+        /* =============================================
+           8. EMPTY STATE
+           Shown when no messages exist yet
+        ============================================= */
         .no-messages {
             text-align: center;
             color: #999;
             padding: 40px 20px;
-            font-size: 1.1em;
+            font-size: 1.05em;
         }
-        
+
+        /* =============================================
+           9. MESSAGE COUNT BADGE
+           Summary line above the message list
+        ============================================= */
         .message-count {
             color: #667eea;
             font-weight: bold;
@@ -111,40 +156,64 @@
             padding-bottom: 15px;
             border-bottom: 2px solid #e0e0e0;
         }
+
+        /* =============================================
+           10. MOBILE OVERRIDES
+        ============================================= */
+        @media (max-width: 480px) {
+            .messages-container {
+                padding: 15px 12px;
+            }
+
+            .message-card {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- ── Page Wrapper ───────────────────────────────── -->
     <div class="container">
+
+        <!-- Page title and subtitle -->
         <header>
             <h1>💬 Collaborate</h1>
             <p>Messages from visitors and collaborators</p>
         </header>
-        
+
+        <!-- ── Navigation Bar ────────────────────────── -->
         <nav>
-            <a href="/">🏠 Home</a> | 
-            <a href="/about">👤 About</a> | 
-            <a href="/projects">🚀 Projects</a> | 
+            <a href="/">🏠 Home</a>
+            <a href="/about">👤 About</a>
+            <a href="/projects">🚀 Projects</a>
             <a href="/contact">✉️ Contact</a>
         </nav>
-        
+
+        <!-- ── Messages Section ──────────────────────── -->
         <div class="messages-container">
             {% if messages %}
+                <!-- Total message count displayed at the top -->
                 <div class="message-count">
                     📊 Total Messages: <strong>{{ messages|length }}</strong>
                 </div>
-                
+
+                <!-- Loop through each message and render a card -->
                 {% for msg in messages %}
                     <div class="message-card">
+                        <!-- Sender name -->
                         <div class="message-name">👤 {{ msg.name }}</div>
+                        <!-- Message body -->
                         <div class="message-text">{{ msg.message }}</div>
                     </div>
                 {% endfor %}
             {% else %}
+                <!-- Empty state: prompt visitor to send the first message -->
                 <div class="no-messages">
                     <p>📭 No messages yet. Be the first to collaborate! <a href="/contact">Send a message</a></p>
                 </div>
             {% endif %}
         </div>
+
     </div>
 </body>
 </html>

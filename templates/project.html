@@ -2,46 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- Viewport meta tag ensures correct scaling on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Projects | Royal Portfolio</title>
     <style>
-        /* Global & Royal Theme */
+        /* =============================================
+           1. GLOBAL & ROYAL THEME
+           Base reset and colour scheme
+        ============================================= */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Georgia', serif;
-            background-color: #002366;
-            color: #D4AF37;
+            background-color: #002366; /* Royal Blue */
+            color: #D4AF37;            /* Gold */
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
 
-        /* Navigation */
+        /* =============================================
+           2. NAVIGATION
+           Flex-wrap keeps links accessible on phones
+        ============================================= */
         nav {
             width: 100%;
-            padding: 25px 0;
+            padding: 20px 15px;
             background: rgba(0, 0, 0, 0.3);
-            text-align: center;
             border-bottom: 2px solid #D4AF37;
+            display: flex;
+            flex-wrap: wrap;           /* Links stack when screen is narrow */
+            justify-content: center;
+            gap: 10px;
         }
+
         nav a {
             color: #D4AF37;
             text-decoration: none;
-            margin: 0 20px;
+            padding: 8px 16px;
             font-weight: bold;
             text-transform: uppercase;
             transition: 0.3s;
+            white-space: nowrap;
         }
+
         nav a:hover { color: #FFFFFF; }
 
-        /* Filter Section */
-        .filter-section {
-            margin: 40px 0;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
+        /* =============================================
+           3. PAGE HEADING
+        ============================================= */
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            /* Fluid font: 1.8rem on phones up to 2.5rem on desktop */
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
         }
+
+        /* =============================================
+           4. CATEGORY FILTER BUTTONS
+           Horizontally scrollable pill buttons
+        ============================================= */
+        .filter-section {
+            margin: 30px 0;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;           /* Buttons wrap on narrow screens */
+            justify-content: center;
+            padding: 0 15px;
+        }
+
+        /* Individual filter pill */
         .filter-btn {
             background: transparent;
             border: 1px solid #D4AF37;
@@ -52,22 +83,33 @@
             text-decoration: none;
             font-weight: bold;
             transition: 0.3s;
+            white-space: nowrap;
         }
+
+        /* Active / hover state: filled gold */
         .filter-btn:hover, .filter-btn.active {
             background: #D4AF37;
             color: #002366;
         }
 
-        /* Project Grid */
-        .container { max-width: 1100px; width: 90%; margin-bottom: 50px; }
-        h1 { text-align: center; margin-top: 40px; font-size: 2.5rem; }
+        /* =============================================
+           5. PROJECT GRID & CARDS
+           Responsive grid; min card width 260px
+        ============================================= */
+        .container {
+            max-width: 1100px;
+            width: 90%;
+            margin-bottom: 50px;
+        }
 
         .project-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            /* Columns shrink to 260px on small screens */
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 25px;
         }
 
+        /* Individual project card */
         .project-card {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(212, 175, 55, 0.4);
@@ -78,12 +120,15 @@
             flex-direction: column;
             justify-content: space-between;
         }
+
+        /* Lift effect on hover */
         .project-card:hover {
             transform: translateY(-8px);
             border-color: #D4AF37;
             background: rgba(212, 175, 55, 0.1);
         }
 
+        /* Small category badge displayed above the title */
         .category-tag {
             font-size: 0.75rem;
             color: #002366;
@@ -95,12 +140,24 @@
             font-weight: bold;
         }
 
+        /* Project title and description typography */
         .project-card h3 { color: white; margin-bottom: 10px; }
-        .project-card p { color: #f0e68c; font-size: 0.95rem; line-height: 1.4; }
+        .project-card p  { color: #f0e68c; font-size: 0.95rem; line-height: 1.4; }
+
+        /* =============================================
+           6. MOBILE OVERRIDES
+        ============================================= */
+        @media (max-width: 480px) {
+            .project-grid {
+                /* Single column on very small phones */
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
 
+    <!-- ── Navigation Bar ────────────────────────────── -->
     <nav>
         <a href="/">Home</a>
         <a href="/about">About Me</a>
@@ -108,23 +165,27 @@
         <a href="/contact">Contact</a>
     </nav>
 
+    <!-- ── Main Content Wrapper ──────────────────────── -->
     <div class="container">
         <h1>PROJECT PORTFOLIO</h1>
 
-        <!-- DYNAMIC CATEGORY FILTERS -->
+        <!-- Category filter buttons (generated dynamically from Flask) -->
         <div class="filter-section">
             <a href="/projects" class="filter-btn">All Projects</a>
             {% for cat in categories %}
+                <!-- Each category links back to the same page with a ?cat= query -->
                 <a href="/projects?cat={{ cat }}" class="filter-btn">{{ cat }}</a>
             {% endfor %}
         </div>
 
-        <!-- DYNAMIC PROJECT CARDS -->
+        <!-- Project cards grid (rendered from the projects list in Flask) -->
         <div class="project-grid">
             {% if projects %}
                 {% for proj in projects %}
+                <!-- One card per project -->
                 <div class="project-card">
                     <div>
+                        <!-- Category badge -->
                         <span class="category-tag">{{ proj.category }}</span>
                         <h3>{{ proj.title }}</h3>
                         <p>{{ proj.description }}</p>
@@ -132,6 +193,7 @@
                 </div>
                 {% endfor %}
             {% else %}
+                <!-- Shown when no projects match the selected category filter -->
                 <p style="text-align: center; width: 100%;">No projects found in this category.</p>
             {% endif %}
         </div>
