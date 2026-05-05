@@ -1,30 +1,141 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Admin - messages</title>
+    <meta charset="UTF-8">
+    <!-- Viewport meta tag for correct mobile rendering -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Messages</title>
+    <style>
+        /* =============================================
+           1. GLOBAL & ROYAL THEME
+           Matches the rest of the portfolio site
+        ============================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #002366; /* Royal Blue */
+            color: #D4AF37;            /* Gold */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* =============================================
+           2. NAVIGATION
+           Flex-wrap for mobile compatibility
+        ============================================= */
+        nav {
+            width: 100%;
+            padding: 20px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 2px solid #D4AF37;
+            display: flex;
+            flex-wrap: wrap;           /* Links wrap on small screens */
+            justify-content: center;
+            gap: 10px;
+        }
+
+        nav a {
+            color: #D4AF37;
+            text-decoration: none;
+            padding: 8px 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+        nav a:hover { color: #FFFFFF; }
+
+        /* =============================================
+           3. ADMIN CONTENT CARD
+        ============================================= */
+        .admin-container {
+            max-width: 800px;
+            width: 90%;
+            margin: 40px auto;
+            padding: 30px 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        /* Page heading */
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 25px;
+            text-align: center;
+            border-bottom: 2px solid #D4AF37;
+            padding-bottom: 15px;
+        }
+
+        /* =============================================
+           4. MESSAGE LIST
+        ============================================= */
+        ul {
+            list-style: none;         /* Remove default bullets */
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Individual message row */
+        li {
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            padding: 12px 15px;
+            color: #f0e68c;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            word-break: break-word;   /* Prevent long messages from overflowing */
+        }
+
+        /* Empty state text */
+        .empty {
+            text-align: center;
+            color: #f0e68c;
+            font-style: italic;
+        }
+
+        /* =============================================
+           5. MOBILE OVERRIDES
+        ============================================= */
+        @media (max-width: 480px) {
+            .admin-container {
+                padding: 20px 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>User messages</h1>
-    
-    <p>
-        <a href="/">Home</a> | 
-        <a href="/projects">Projects</a> | 
-        <a href="/contact">Contact Form</a>
-    </p>
 
-    <hr>
+    <!-- ── Navigation Bar ────────────────────────────── -->
+    <nav>
+        <a href="/">Home</a>
+        <a href="/projects">Projects</a>
+        <a href="/contact">Contact</a>
+    </nav>
 
-    <h3>List of All messages:</h3>
-    
-    {% if data %}
-        <ul>
-            {% for m in data %}
-                <li>{{ m }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No messages found in the file.</p>
-    {% endif %}
+    <!-- ── Admin Message List ────────────────────────── -->
+    <div class="admin-container">
+        <h1>User Messages</h1>
+
+        <!-- If messages exist, render them as a list; otherwise show empty state -->
+        {% if data %}
+            <ul>
+                <!-- Each line from data.txt becomes one list item -->
+                {% for m in data %}
+                    <li>{{ m }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty">No messages found in the file.</p>
+        {% endif %}
+    </div>
 
 </body>
 </html>

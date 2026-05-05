@@ -2,48 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- Viewport meta tag for correct mobile rendering -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Hina Ali | Royal Portfolio</title>
     <style>
-        /* 1. Global & Royal Theme */
+        /* =============================================
+           1. GLOBAL & ROYAL THEME
+        ============================================= */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Georgia', serif;
             background-color: #002366; /* Royal Blue */
-            color: #D4AF37; /* Gold */
+            color: #D4AF37;            /* Gold */
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
 
-        /* 2. Navigation */
+        /* =============================================
+           2. NAVIGATION
+           Flex-wrap so links stack neatly on phones
+        ============================================= */
         nav {
             width: 100%;
-            padding: 25px 0;
+            padding: 20px 15px;
             background: rgba(0, 0, 0, 0.3);
-            text-align: center;
             border-bottom: 2px solid #D4AF37;
+            display: flex;
+            flex-wrap: wrap;           /* Wrap links on narrow viewports */
+            justify-content: center;
+            gap: 10px;
         }
 
         nav a {
             color: #D4AF37;
             text-decoration: none;
-            margin: 0 20px;
+            padding: 8px 16px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: 0.3s;
+            white-space: nowrap;
         }
 
         nav a:hover { color: #FFFFFF; }
 
-        /* 3. Contact Form Container */
+        /* =============================================
+           3. CONTACT FORM CONTAINER
+           Centred card with fluid width for mobile
+        ============================================= */
         .contact-container {
             max-width: 600px;
-            width: 90%;
-            margin: 60px 20px;
-            padding: 40px;
+            width: 90%;               /* Takes 90 % of the viewport on small screens */
+            margin: 50px auto;
+            padding: 40px 30px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
             border: 1px solid rgba(212, 175, 55, 0.3);
@@ -51,25 +65,32 @@
             text-align: center;
         }
 
+        /* Page heading */
         h1 {
-            font-size: 2.5rem;
+            /* Fluid: 1.8rem on phones → 2.5rem on desktop */
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
             margin-bottom: 10px;
             color: #D4AF37;
         }
 
+        /* Subheading / tagline below the main heading */
         p.subtitle {
             color: #f0e68c;
             margin-bottom: 30px;
             font-style: italic;
         }
 
-        /* 4. Form Styling */
+        /* =============================================
+           4. FORM LAYOUT
+           Vertical flex column with consistent gaps
+        ============================================= */
         form {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
+        /* Wrapper for each label + input pair */
         .form-group {
             text-align: left;
         }
@@ -82,6 +103,7 @@
             text-transform: uppercase;
         }
 
+        /* Text input and textarea share the same style */
         input[type="text"], textarea {
             width: 100%;
             padding: 12px 15px;
@@ -95,12 +117,16 @@
             transition: 0.3s;
         }
 
+        /* Glow effect when the field is focused */
         input[type="text"]:focus, textarea:focus {
             border-color: #FFFFFF;
             box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
 
-        /* 5. Gold Send Button */
+        /* =============================================
+           5. SUBMIT BUTTON
+           Full-width pill-shaped gold button
+        ============================================= */
         .send-btn {
             background-color: #D4AF37;
             color: #002366;
@@ -114,6 +140,7 @@
             letter-spacing: 2px;
             transition: 0.4s;
             margin-top: 10px;
+            width: 100%;               /* Full width for easy tapping on mobile */
         }
 
         .send-btn:hover {
@@ -121,10 +148,20 @@
             transform: scale(1.03);
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
         }
+
+        /* =============================================
+           6. MOBILE OVERRIDES
+        ============================================= */
+        @media (max-width: 480px) {
+            .contact-container {
+                padding: 25px 15px;
+            }
+        }
     </style>
 </head>
 <body>
 
+    <!-- ── Navigation Bar ────────────────────────────── -->
     <nav>
         <a href="/">Home</a>
         <a href="/about">About Me</a>
@@ -132,22 +169,27 @@
         <a href="/contact">Contact</a>
     </nav>
 
+    <!-- ── Contact Form Card ─────────────────────────── -->
     <div class="contact-container">
         <h1>GET IN TOUCH</h1>
         <p class="subtitle">I'd love to hear from you!</p>
 
-        <!-- Form linked to your Flask route -->
+        <!-- Form POSTs to the Flask /contact route which saves the message to data.txt -->
         <form action="/contact" method="POST">
+
+            <!-- Name field -->
             <div class="form-group">
                 <label for="name">Your Name</label>
                 <input type="text" id="name" name="name" placeholder="Enter your name..." required>
             </div>
 
+            <!-- Message textarea -->
             <div class="form-group">
                 <label for="message">Your Message</label>
                 <textarea id="message" name="message" rows="5" placeholder="How can I help you?" required></textarea>
             </div>
 
+            <!-- Submit button -->
             <button type="submit" class="send-btn">Send Message</button>
         </form>
     </div>
